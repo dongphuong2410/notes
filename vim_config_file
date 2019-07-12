@@ -1,0 +1,18 @@
+set autoindent
+set smartindent
+
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+
+syntax on
+
+colorscheme desert
+
+set hlsearch
+
+map <F5> :cp!<CR>
+map <F6> :cn!<CR>
+nnoremap <F8> :grep! "\<<cword>\>" . -r<CR>:copen 33<CR>
