@@ -1,0 +1,60 @@
+##### INSTALL TENSOR FLOW ##############
+$ pip install --upgrade tensorflow
+
+
+##### INSTALL HOROVOD (BASIC) #########
+$ git clone --recursive https://github.com/horovod/horovod.git
+
+# Install OpenMPI
+$ tar -xf openmpi-4.0.1.tar.gz
+$ cd openmpi-4.0.1
+$ ./configure --prefix=/usr/local
+$ make all install
+
+# Install CUDA
+$ sudo apt-get install nvidia-cuda-toolkit
+
+# Install NCCL ===================> NOT USED
+$ sudo mkdir -p /usr/local/cuda/nccl/lib
+$ sudo mkdir -p /usr/local/cuda/nccl/include
+$ sudo cp *.txt /usr/local/cuda/nccl
+$ sudo cp include/*.h /usr/include/
+$ sudo cp lib/libnccl.so.2.4.7 lib/libnccl_static.a /usr/lib/x86_64-linux-gnu/
+$ cd /usr/lib/x86_64-linux-gnu/
+$ sudo ln -s libnccl.so.2.4.7 libnccl.so.2
+$ sudo ln -s libnccl.so.2 libnccl.so
+$ for i in libnccl*; do sudo ln -s /usr/lib/x86_64-linux-gnu/$i /usr/local/cuda/nccl/lib/$i; done
+$ tar -xf nccl_2.4.7-1+cuda9.2_x86_64.txz 
+$ cd nccl_2.4.7-1+cuda9.2_x86_64/
+
+or
+
+$ sudo dpkg -i nvidia-machine-learning-repo-ubuntu1604_1.0.0-1_amd64.deb
+$ sudo apt-get update
+$ sudo apt install libnccl2=2.4.7-1+cuda9.0 libnccl-dev=2.4.7-1+cuda9.0
+
+
+# Install and setup gcc 4.9
+$ sudo vim /etc/apt/sources.list
+deb http://dk.archive.ubuntu.com/ubuntu/ xenial main
+deb http://dk.archive.ubuntu.com/ubuntu/ xenial universe
+
+$ sudo apt update && sudo apt install g++-4.9
+
+
+# Install flatbuffers
+$ mkdir flatbuffers
+$ cd flatbuffers/
+$ git clone  https://github.com/google/flatbuffers.git
+$ cd flatbuffers/
+$ cmake -G "Unix Makefiles"
+$ make
+$ sudo ln -s /home/deepman/tensorflow/downloads/flatbuffers/flatbuffers/flatc /usr/local/bin/flatc
+$ chmod +x /home/deepman/tensorflow/downloads/flatbuffers/flatbuffers/flatc
+$ sudo cp include/flatbuffers/ /usr/include/
+
+
+# Install horovod from source
+$ sudo ldconfig
+$ sudo HOROVOD_GPU_ALLREDUCE=NCCL HOROVOD_NCCL_HOME=/usr/local/nccl python setup.py install
+
