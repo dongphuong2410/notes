@@ -1,0 +1,56 @@
+##### INSTALL DOCKER #####
+
+$ sudo apt install apt-transport-https ca-certificates curl software-properties-common
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+$ sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+$ apt-cache policy docker-ce
+$ sudo apt install docker-ce
+$ sudo systemctl status docker
+
+
+#### BUILD SMARTLOG WITH MAVEN #####
+
+$ mvn install:install-file -Dfile=lib/local/lpsolve55j/1/lpsolve55j-1.jar -DpomFile=lib/local/lpsolve55j/1/lpsolve55j-1.pom
+
+##### INSTALL AND RUN BRENNTAG #####
+
+# Install tomcat
+$ docker run -it -p 8080:8080 tomcat
+
+# Build optimizer project
+$ cd src/optimizer
+$ docker run --rm -it -v $(pwd):/project -w /project maven mvn package
+$ docker run -it -p 8080:8080 -v $(pwd)/target/smartlog-tms-optimization.war:/usr/local/tomcat/webapps/smartlog-tms-optimization.war tomcat
+
+
+
+######## Run Unit Test #####################
+??????
+
+
+
+
+
+####### Docker build error #################
+??????
+
+
+
+
+####### lpsolve library ####################
+??????
+
+
+
+
+####### Temporary code (in VRPSolutionCollection.java) ####################
+ 
+        for (int i = 0; i < solutions.size(); i++) {
+            System.out.println("REPICKUP : " + solutions.get(i).repickupFactor);
+            System.out.println("Number of trips : " + solutions.get(i).getStatistic().getNumberTrips());
+            System.out.println("Number of Internal Trucks : " + solutions.get(i).getStatistic().getNumberInternalTrucks());
+            System.out.println("Number of External Trucks : " + solutions.get(i).getStatistic().getNumberExternalTrucks());
+            System.out.println("Total distance : " + solutions.get(i).getStatistic().getTotalDistance());
+            System.out.println();
+        }
+	}
